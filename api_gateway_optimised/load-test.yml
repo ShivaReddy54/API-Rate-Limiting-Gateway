@@ -1,0 +1,26 @@
+config:
+  target: "http://localhost:3000"
+  phases:
+    - duration: 60
+      arrivalRate: 10
+      name: "Warm up"
+
+    - duration: 60
+      arrivalRate: 30
+      name: "Steady load"
+
+    - duration: 30
+      arrivalRate: 60
+      name: "High load (rate limit trigger)"
+
+  defaults:
+    headers:
+      Content-Type: application/json
+      x-user-id: "user1"
+      Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InVzZXIxIiwicm9sZSI6ImZyZWUiLCJpYXQiOjE3NjY1NDIzMjgsImV4cCI6MTc2NjU0NTkyOH0.8P8tyve-u2hF_PagYMAs4jcSVyIGavVVaAP3huOVo4k"
+
+scenarios:
+  - name: "Rate limited API requests"
+    flow:
+      - get:
+          url: "/api/orders"
